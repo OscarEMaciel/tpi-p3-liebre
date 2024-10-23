@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Infrastructure.Data
 {
@@ -12,7 +13,9 @@ namespace Infrastructure.Data
     {
         public DbSet<User>Users { get; set; }
         public DbSet<SysAdmin> SysAdmins { get; set; }
-
+        public DbSet<Admin> Admin { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
+        
         public ApplicationContext(DbContextOptions<ApplicationContext>options): base (options) { }
 
 
