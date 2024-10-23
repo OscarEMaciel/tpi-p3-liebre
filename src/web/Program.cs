@@ -13,12 +13,6 @@ using Domain.Entities;
 using Application.Models;
 using Application.Models.Request;
 
-
-
-
-
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
