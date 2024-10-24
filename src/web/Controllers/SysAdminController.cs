@@ -3,114 +3,72 @@ using Domain.Entities;
 using Application.Interfaces;
 using Application.Models.Request;
 using Application.Models;
-using Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 
-namespace Web.Controllers
+namespace Web.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class SysAdminController : ControllerBase
 {
-    [ApiController]
-    [Authorize(Roles = "SysAdmin")]
-    [Route("api/[controller]")]
-    public class SysAdminController : ControllerBase
+    private readonly ISysAdminServices _sysadminService;
+
+    public SysAdminController(ISysAdminServices sysadminService)
     {
-        private readonly ISysAdminServices _sysadminService;
+        _sysadminService = sysadminService;
+    }
 
-        public SysAdminController(ISysAdminServices sysadminService)
+    [HttpGet]
+    public ActionResult<List<SysAdminDTO>> GetAll()
+    {
+        var sysadmins = _sysadminService.GetAllSysAdmins();
+        return Ok(sysadmins);
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<SysAdminDTO> GetById(int id)
+    {
+        try
         {
-            _sysadminService = sysadminService;
+            return _sysadminService.GetSysAdminById(id);
         }
-
-        [HttpGet]
-        public ActionResult<IEnumerable<SysAdmin>> GetSysAdmins()
+        catch (Exception)
         {
-            try
-            {
-                var sysadmins = _sysadminService.GetAllSysAdmins();
-                return Ok(sysadmins);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, "An unexpected error occurred.");
-            }
+            return BadRequest();
         }
+    }
 
-        [HttpGet("{id}")]
-        public ActionResult<SysAdminDTO> GetSysAdminById(int id)
+    [HttpPost]
+    public IActionResult Create(SysAdminCreateRequest request)
+    {
+         _sysadminService.CreateSysAdmin(request);
+        return Ok();
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, SysAdminUpdateRequest request)
+    {
+        try
         {
-            try
-            {
-                var sysadmin = _sysadminService.GetSysAdminById(id);
-                if (sysadmin == null)
-                {
-                    throw new NotFoundException("SysAdmin", id);
-                }
-                return Ok(sysadmin);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, "An unexpected error occurred.");
-            }
+            _sysadminService.UpdateSysAdmin(id, request);
+            return Ok();
         }
-
-        [HttpPost]
-        public ActionResult<SysAdmin> AddSysAdmin([FromBody] SysAdminCreateRequest sysadminCreateRequest)
+        catch (Exception)
         {
-            try
-            {
-                _sysadminService.CreateSysAdmin(sysadminCreateRequest);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, "An unexpected error occurred.");
-            }
+            return BadRequest();
         }
+    }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateSysAdmin(int id, [FromBody] SysAdminUpdateRequest sysadminUpdateRequest)
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        try
         {
-            try
-            {
-                _sysadminService.UpdateSysAdmin(id, sysadminUpdateRequest);
-                return NoContent();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, "An unexpected error occurred.");
-            }
+            _sysadminService.DeleteSysAdmin(id);
+            return Ok();
         }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteSysAdmin(int id)
+        catch (Exception)
         {
-            try
-            {
-                _sysadminService.DeleteSysAdmin(id);
-                return NoContent();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(500, "An unexpected error occurred.");
-            }
+            return NotFound();
         }
     }
 }
