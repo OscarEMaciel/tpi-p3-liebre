@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Web.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "SysAdmin")]
+    
     [Route("api/[controller]")]
     public class SysAdminController : ControllerBase
     {
