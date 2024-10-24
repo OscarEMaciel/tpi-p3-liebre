@@ -3,6 +3,7 @@ using Domain.Entities;
 using Application.Interfaces;
 using Application.Models.Request;
 using Application.Models;
+using System.Collections;
 
 namespace Web.Controllers;
 
@@ -19,7 +20,7 @@ public class SysAdminController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<SysAdminDTO>> GetAll()
+    public ActionResult<IEnumerable<SysAdminDTO>> GetAll()
     {
         var sysadmins = _sysadminService.GetAllSysAdmins();
         return Ok(sysadmins);
