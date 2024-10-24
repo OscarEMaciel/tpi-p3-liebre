@@ -10,16 +10,10 @@ namespace Web.Controllers;
 [ApiController]
 public class SysAdminController : ControllerBase
 {
-<<<<<<< HEAD
     private readonly ISysAdminServices _sysadminService;
 
     public SysAdminController(ISysAdminServices sysadminService)
-=======
-    [ApiController]
-    
-    [Route("api/[controller]")]
-    public class SysAdminController : ControllerBase
->>>>>>> e1f2fcc48e2d27f88b41ca3c51c2f19a4e23bde6
+
     {
         _sysadminService = sysadminService;
     }
