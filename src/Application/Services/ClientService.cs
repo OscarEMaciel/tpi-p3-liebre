@@ -1,13 +1,10 @@
 using Application.Interfaces;
+using Application.Models;
 using Domain.Entities;
 using Domain.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Services 
+namespace Application.Services
 {
     public class ClientService : IClientService
     {
@@ -18,15 +15,20 @@ namespace Application.Services
             _clientRepository = clientRepository;
         }
 
-        public List<Client> GetClients()
+        public List<ClientDTO> GetClients()
         {
-            return _clientRepository.GetAll();
+            var clients = _clientRepository.GetAll();
+            return ClientDTO.CreateList(clients);
         }
 
-        public Client GetClientById(int id)
+        public ClientDTO GetClientById(int id)
         {
-            return _clientRepository.GetById(id);
-
+            var client = _clientRepository.GetById(id);
+            if (client == null)
+            {
+                return null;
+            }
+            return ClientDTO.Create(client);
         }
 
         public void AddClient(Client client)
@@ -34,18 +36,23 @@ namespace Application.Services
             _clientRepository.Add(client);
         }
 
-        public void UpdateClient(int id, Client client)
+        public void UpdateClient(Client client)
         {
-            _clientRepository.Update(id, client);
-
+            _clientRepository.Update(client);
         }
 
         public void DeleteClient(int id)
         {
             var client = _clientRepository.GetById(id);
-            _clientRepository.Delete(client);
+            if (client != null)
+            {
+                _clientRepository.Delete(client);
+            }
+        }
 
+        public void UpdateClient(int id, Client client)
+        {
+            throw new NotImplementedException();
         }
     }
 }
-

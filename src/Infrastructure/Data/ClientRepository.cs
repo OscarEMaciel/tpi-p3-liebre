@@ -1,6 +1,5 @@
 using Domain.Entities;
 using Domain.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,9 +20,9 @@ namespace Infrastructure.Data
             return _clients;
         }
 
-        public override Client? GetById<TId>(TId id)
+        public override Client GetById<TId>(TId id)
         {
-            return _clients.FirstOrDefault(c => c.Id.Equals(id)); // Filtramos por el id
+            return _clients.FirstOrDefault(c => c.Id.Equals(id));
         }
 
         public override void Delete(Client entity)
@@ -36,7 +35,6 @@ namespace Infrastructure.Data
             var client = _clients.FirstOrDefault(c => c.Id == entity.Id);
             if (client != null)
             {
-                // Actualiza las propiedades necesarias, por ejemplo:
                 client.Name = entity.Name;
                 client.Transactions = entity.Transactions;
             }
@@ -44,3 +42,4 @@ namespace Infrastructure.Data
         }
     }
 }
+

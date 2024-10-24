@@ -1,6 +1,6 @@
 using Application.Interfaces;
+using Application.Models.Request;
 using Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
@@ -16,41 +16,60 @@ namespace Web.Controllers
             _clientService = clientService;
         }
 
-        [HttpGet("[action]")] //este decorador hace q la ruta tome el nombre del metodo
+        [HttpGet("[action]")]
         public IActionResult GetAll()
         {
-            return Ok(_clientService.GetClients());
-
+            var clients = _clientService.GetClients();
+            return Ok(clients);
         }
 
         [HttpGet("[action]/{id}")]
         public IActionResult GetClientById(int id)
         {
-            return Ok(_clientService.GetClientById(id));
+            var client = _clientService.GetClientById(id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+            return Ok(client);
         }
 
         [HttpPost("[action]")]
-        public IActionResult AddClient(Client client)
+        public IActionResult AddClient([FromBody] Client client)
         {
             _clientService.AddClient(client);
             return Ok();
-
         }
 
         [HttpPut("[action]/{id}")]
-        public IActionResult UpdateClient(int id, [FromBody] Client client)
+        public IActionResult UpdateClient(int id, [FromBody] ClientUpdateRequest request)
         {
-            _clientService.UpdateClient(id, client);
+            var existingClient = _clientService.GetClientById(id);
+            if (existingClient == null)
+            {
+                return NotFound();
+            }
+
+            existingClient.Username = request.Username;
+            existingClient.Name = request.Name;
+            existingClient.LastName = request.LastName;
+            existingClient.Email = request.Email;
+
+            _clientService.UpdateClient(existingClient);
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]/{id}")]
         public IActionResult DeleteClient(int id)
         {
+            var client = _clientService.GetClientById(id);
+            if (client == null)
+            {
+                return NotFound();
+            }
+
             _clientService.DeleteClient(id);
             return Ok();
         }
-
-
     }
 }
