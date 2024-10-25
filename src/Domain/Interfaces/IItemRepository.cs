@@ -1,13 +1,8 @@
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Interfaces;
 
-namespace Domain.Interfaces
+namespace Domain;
+
+public interface IItemtRepository : IBaseRepository<Item>
 {
-    public interface IItemRepository : IBaseRepository<Item>
-    {
-    }
 }
