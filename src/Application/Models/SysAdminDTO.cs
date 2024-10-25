@@ -13,7 +13,7 @@ namespace Application.Models
         public string LastName { get; set; }
         public string Email { get; set; }
 
-        // Método para crear un solo SysAdminDTO desde un SysAdmin
+     
         public static SysAdminDTO Create(SysAdmin sysadmin)
         {
             return new SysAdminDTO
@@ -26,7 +26,7 @@ namespace Application.Models
             };
         }
 
-        // Método para crear una lista de SysAdminDTO a partir de una colección de SysAdmin
+        
         public static IEnumerable<SysAdminDTO> CreateList(IEnumerable<SysAdmin> sysAdmins)
         {
             return sysAdmins.Select(Create).ToList(); 
