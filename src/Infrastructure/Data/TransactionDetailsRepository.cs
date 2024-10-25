@@ -3,9 +3,9 @@ using Domain.Entities;
 
 namespace Infrastructure.Data;
 
-public class TransactionDetailsRepository : EFRepository<TransactionDetail>, ITransactionDetailsRepository
+public class TransactionDetailsRepository : EfRepository<TransactionDetail>, ITransactionDetailsRepository
 {
-    public TransactionDetailsRepository(AppDbContext context) : base(context)
+    public TransactionDetailsRepository(ApplicationContext context) : base(context)
     {
     }
 }
