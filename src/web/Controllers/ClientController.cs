@@ -1,12 +1,19 @@
+using Application.Services;
+using Microsoft.AspNetCore.Mvc;
+using Domain.Entities;
 using Application.Interfaces;
 using Application.Models.Request;
-using Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
+using Application.Models;
+using System;
+using System.Collections.Generic;
+using Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "SysAdmin, Admin")]
+    [Route("api/[controller]")]
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
@@ -16,60 +23,95 @@ namespace Web.Controllers
             _clientService = clientService;
         }
 
-        [HttpGet("[action]")]
-        public IActionResult GetAll()
+        [HttpGet]
+        public ActionResult<IEnumerable<Client>> GetClients()
         {
-            var clients = _clientService.GetClients();
-            return Ok(clients);
-        }
-
-        [HttpGet("[action]/{id}")]
-        public IActionResult GetClientById(int id)
-        {
-            var client = _clientService.GetClientById(id);
-            if (client == null)
+            try
             {
-                return NotFound();
+                var clients = _clientService.GetAllClients();
+                return Ok(clients);
             }
-            return Ok(client);
-        }
-
-        [HttpPost("[action]")]
-        public IActionResult AddClient([FromBody] Client client)
-        {
-            _clientService.AddClient(client);
-            return Ok();
-        }
-
-        [HttpPut("[action]/{id}")]
-        public IActionResult UpdateClient(int id, [FromBody] ClientUpdateRequest request)
-        {
-            var existingClient = _clientService.GetClientById(id);
-            if (existingClient == null)
+            catch (Exception ex)
             {
-                return NotFound();
+
+                return StatusCode(500, "An unexpected error occurred.");
             }
-
-            existingClient.Username = request.Username;
-            existingClient.Name = request.Name;
-            existingClient.LastName = request.LastName;
-            existingClient.Email = request.Email;
-
-            _clientService.UpdateClient(existingClient);
-            return Ok();
         }
 
-        [HttpDelete("[action]/{id}")]
+        [HttpGet("{id}")]
+        public ActionResult<ClientDTO> GetClientById(int id)
+        {
+            try
+            {
+                var client = _clientService.GetClientById(id);
+                if (client == null)
+                {
+                    throw new NotFoundException("Client", id);
+                }
+                return Ok(client);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult<Client> AddClient([FromBody] ClientCreateRequest clientCreateRequest)
+        {
+            try
+            {
+                _clientService.CreateClient(clientCreateRequest);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateClient(int id, [FromBody] ClientUpdateRequest clientUpdateRequest)
+        {
+            try
+            {
+                _clientService.UpdateClient(id, clientUpdateRequest);
+                return NoContent();
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "An unexpected error occurred.");
+            }
+        }
+
+        [HttpDelete("{id}")]
         public IActionResult DeleteClient(int id)
         {
-            var client = _clientService.GetClientById(id);
-            if (client == null)
+            try
             {
-                return NotFound();
+                _clientService.DeleteClient(id);
+                return NoContent();
             }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
 
-            _clientService.DeleteClient(id);
-            return Ok();
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
     }
 }

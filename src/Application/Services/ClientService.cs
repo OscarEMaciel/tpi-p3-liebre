@@ -1,8 +1,10 @@
 using Application.Interfaces;
 using Application.Models;
+using Application.Models.Request;
+using Domain;
 using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Interfaces;
-using System.Collections.Generic;
 
 namespace Application.Services
 {
@@ -15,44 +17,52 @@ namespace Application.Services
             _clientRepository = clientRepository;
         }
 
-        public List<ClientDTO> GetClients()
+        public IEnumerable<ClientDTO> GetAllClients()
         {
-            var clients = _clientRepository.GetAll();
-            return ClientDTO.CreateList(clients);
+            var objs = _clientRepository.GetAll();
+            return ClientDTO.CreateList(objs);
         }
 
         public ClientDTO GetClientById(int id)
         {
-            var client = _clientRepository.GetById(id);
-            if (client == null)
-            {
-                return null;
-            }
-            return ClientDTO.Create(client);
+            var obj = _clientRepository.GetById(id)
+                ?? throw new NotFoundException(nameof(Client), id);
+            return ClientDTO.Create(obj);
         }
 
-        public void AddClient(Client client)
+        public void CreateClient(ClientCreateRequest clientCreteRequest)
         {
+            var client = new Client(clientCreteRequest.Name, clientCreteRequest.LastName, clientCreteRequest.Email, clientCreteRequest.Username, clientCreteRequest.Password);
             _clientRepository.Add(client);
         }
 
-        public void UpdateClient(Client client)
+        public void UpdateClient(int id, ClientUpdateRequest clientUpdateRequest)
         {
+            var client = _clientRepository.GetById(id)
+                ?? throw new NotFoundException(nameof(Client), id);
+
+            if (clientUpdateRequest.Name != string.Empty) client.Name = clientUpdateRequest.Name;
+
+            if (clientUpdateRequest.Email != string.Empty) client.Email = clientUpdateRequest.Email;
+
+            if (clientUpdateRequest.Password != string.Empty) client.Password = clientUpdateRequest.Password;
+
+            if (clientUpdateRequest.Username != string.Empty) client.Username = clientUpdateRequest.Username;
+
+            if (clientUpdateRequest.LastName != string.Empty) client.LastName = clientUpdateRequest.LastName;
+
             _clientRepository.Update(client);
         }
 
         public void DeleteClient(int id)
         {
             var client = _clientRepository.GetById(id);
-            if (client != null)
+            if (client == null)
             {
-                _clientRepository.Delete(client);
+                throw new NotFoundException(nameof(Client), id);
             }
+            _clientRepository.Delete(client);
         }
 
-        public void UpdateClient(int id, Client client)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
