@@ -2,7 +2,7 @@
 
 namespace Application.Models
 {
-    internal class TransactionDTO
+    public class TransactionDTO
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

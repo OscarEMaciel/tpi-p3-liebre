@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Application.Models;
-using Application.Request;
-
+using Application.Models.Request;
 
 namespace Application.Interfaces
 {
