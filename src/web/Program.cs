@@ -36,13 +36,14 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite (
 #region Services
 builder.Services.AddScoped<ISysAdminServices, SysAdminServices>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ITransactionDetailService, TransactionDetailsService>();
 #endregion
 
 #region Repositories
 builder.Services.AddScoped<ISysAdminRepository, SysAdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ITransactionDetailsRepository, TransactionDetailsRepository>();
 #endregion
-
 var app = builder.Build();
 
 
