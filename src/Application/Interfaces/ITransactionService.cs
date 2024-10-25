@@ -6,7 +6,7 @@ namespace Application.Interfaces
 {
     public interface ITransactionService
     {
-        IEnumerable<TransactionDTO> GetAllTransaction(); 
+        IEnumerable<TransactionDTO> GetAllTransactions(); 
         TransactionDTO GetTransactionById(int id);
         void CreateTransaction(TransactionCreateRequest transactionCreateRequest);
         void UpdateTransaction(int id, TransactionUpdateRequest transactionUpdateRequest);
