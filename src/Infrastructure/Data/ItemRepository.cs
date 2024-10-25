@@ -6,7 +6,7 @@ namespace Infrastructure.Data;
 
 public class ItemRepository : EfRepository<Item>, IItemRepository
 {
-    public ItemRepository(AppDbContext context) : base(context)
+    public ItemRepository(ApplicationContext context) : base(context)
     {
     }
 }

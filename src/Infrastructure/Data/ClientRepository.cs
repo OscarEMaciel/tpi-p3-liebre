@@ -6,7 +6,7 @@ namespace Infrastructure.Data;
 
 public class ClientRepository : EfRepository<Client>, IClientRepository
 {
-    public ClientRepository(AppDbContext context) : base(context)
+    public ClientRepository(ApplicationContext context) : base(context)
     {
     }
 }
