@@ -1,19 +1,36 @@
-using System;
 
-namespace Domain.Entities;
-public class TransactionDetail
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Xml.Linq;
+
+namespace Domain.Entities
 {
-    public int Id { get; set; }
-    public Item Item { get; set; }
-    public float TotalAmount { get; set; }
-    public int Quantity { get; set; }
-    public string Purchaser { get; set; }
-    public string Date { get; set; }
-   
+    public class TransactionDetail
+    {
+        public int Id { get; set; }
+        public int TransactionId { get; set; }
 
+        [Required]
+        public Transaction Transaction { get; set; }
+        public int ItemId { get; set; }
 
+        [Required]
+        public Item Item { get; set; }
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        
+        public TransactionDetail() {
+            
+            Transaction = new Transaction();
+             Item = new Item();
 
+         }
+        public TransactionDetail(Transaction transaction, Item item, int quantity, decimal unitPrice)
+        {
+            Transaction = transaction;
+            Item = item;
+            Quantity = quantity;
+            UnitPrice = unitPrice;
+        }
+    }
 }
-//aca tmb le agregue un ID
-//Le agregue tmb un Quantity q seria la cantidad de producto q compra, de ultima lo sacamos
-//Le saque el purchasedItem porq ya lo esta referenciando en el 'Item'
