@@ -1,10 +1,17 @@
-using System.Collections.Generic;
 
 namespace Domain.Entities
 {
     public class Client : User
     {
-        public List<Transaction> Transactions { get; set; }
+        public Client() { }
+        public Client(string name, string lastname, string email, string username, string password)
+        {
+            Name = name;
+            LastName = lastname;
+            Email = email;
+            Username = username;
+            Password = password;
+        }
+
     }
 }
-

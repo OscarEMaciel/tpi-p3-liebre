@@ -1,16 +1,16 @@
 using Application.Models;
+using Application.Models.Request;
 using Domain.Entities;
-using System.Collections.Generic;
 
 namespace Application.Interfaces
 {
     public interface IClientService
     {
-        public List<ClientDTO> GetClients();
-        public ClientDTO GetClientById(int id);
-        public void AddClient(Client client);
-        public void UpdateClient(int id, Client client);
-        public void DeleteClient(int id);
+        IEnumerable<ClientDTO> GetAllClients();
+        ClientDTO GetClientById(int id);
+        void CreateClient(ClientCreateRequest clientCreateRequest);
+        void UpdateClient(int id, ClientUpdateRequest clientUpdateRequest);
+        void DeleteClient(int id);
     }
 }
 
