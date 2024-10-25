@@ -1,14 +1,15 @@
+using Application.Models.Request;
+using Application.Models;
 using Domain.Entities;
-using System.Collections.Generic;
 
 namespace Application.Interfaces
 {
     public interface IItemService
     {
-        List<Item> GetItems();
-        Item GetItemById(int id);
-        void AddItem(Item item);
-        void UpdateItem(int id, Item item);
+        IEnumerable<ItemDTO> GetAllItems();
+        ItemDTO GetItemById(int id);
+        void CreateItem(ItemCreateRequest ItemCreateRequest);
+        void UpdateItem(int id, ItemUpdateRequest ItemUpdateRequest);
         void DeleteItem(int id);
     }
 }

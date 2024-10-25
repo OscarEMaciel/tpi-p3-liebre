@@ -1,11 +1,12 @@
-﻿using Domain.Entities;
+﻿
+using Domain.Entities;
 
 namespace Application.Models
 {
     public class ItemDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public decimal Price { get; set; }
         public int StockAvailable { get; set; }
 
@@ -13,10 +14,10 @@ namespace Application.Models
         {
             return new ItemDTO
             {
-                Id = Item.Id,
-                Name = Item.Name,
-                Price = Item.Price,
-                StockAvailable = Item.StockAvailable
+                Id = item.Id,
+                Name = item.Name,
+                Price = item.Price,
+                StockAvailable = item.StockAvailable
             };
         }
 
