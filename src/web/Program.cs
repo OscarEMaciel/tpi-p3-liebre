@@ -37,7 +37,7 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite (
 builder.Services.AddScoped<ISysAdminServices, SysAdminServices>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<ITransactionDetailService, TransactionDetailsService>();
-builder.Services.AddScoped<ITransactionService, TransactionServices>(); 
+builder.Services.AddScoped<ITransactionService, TransactionService>(); 
 #endregion
 
 #region Repositories

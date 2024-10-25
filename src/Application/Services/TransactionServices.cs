@@ -8,12 +8,12 @@ using Domain.Exceptions;
 
 namespace Application.Services
 {
-    public class TransactionServices: ITransactionService
+    public class TransactionService: ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly ITransactionDetailsRepository _transactiondetailsRepository;
 
-        public TransactionService(ITransactionRepository transactionRepository, ITransactionDetailsRepository transactiondetailsRepository)
+        public TransactionService (ITransactionRepository transactionRepository, ITransactionDetailsRepository transactiondetailsRepository)
         {
             _transactionRepository = transactionRepository;
             _transactiondetailsRepository = transactiondetailsRepository;
