@@ -39,8 +39,8 @@ namespace Application.Services
             var transactiondetails = new List<TransactionDetail>();
             foreach (var transactiondetailId in transactionCreteRequest.TransactionDetailIds)
             {
-                var Transactiondetail = _TransactiondetailsRepository.GetById(TransactiondetailId);
-                if (Transactiondetail != null)
+                var transactiondetail = _transactiondetailsRepository.GetById(transactiondetailId);
+                if (transactiondetail != null)
                 {
                     transactiondetails.Add(transactiondetail);
                 }
