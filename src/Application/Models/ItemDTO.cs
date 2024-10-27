@@ -24,7 +24,7 @@ namespace Application.Models
         public static List<ItemDTO> CreateList(IEnumerable<Item> items)
         {
             List<ItemDTO> listDto = new List<ItemDTO>();
-            foreach (var product in items)
+            foreach (var item in items)
             {
                 listDto.Add(Create(item));
             }

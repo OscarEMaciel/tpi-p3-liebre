@@ -26,7 +26,7 @@ namespace Web.Controllers
         {
             try
             {
-                var transactions = _transactionService.GetAllTransaction();
+                var transactions = _transactionService.GetAllTransactions();
                 return Ok(transactions);
             }
             catch (Exception ex)

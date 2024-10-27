@@ -38,16 +38,16 @@ namespace Application.Services
 
         public void UpdateItem(int id, ItemUpdateRequest itemUpdateRequest)
         {
-            var product = _itemRepository.GetById(id)
+            var item = _itemRepository.GetById(id)
                 ?? throw new NotFoundException(nameof(Item), id);
 
-            if (itemUpdateRequest.Name != string.Empty) product.Name = itemUpdateRequest.Name;
+            if (itemUpdateRequest.Name != string.Empty) item.Name = itemUpdateRequest.Name;
 
-            if (itemUpdateRequest.Price != null) product.Price = itemUpdateRequest.Price;
+            if (itemUpdateRequest.Price != null) item.Price = itemUpdateRequest.Price;
 
             if (itemUpdateRequest.StockAvailable != null) item.StockAvailable = itemUpdateRequest.StockAvailable;
 
-            _itemRepository.Update(product);
+            _itemRepository.Update(item);
         }
 
         public void DeleteItem(int id)
