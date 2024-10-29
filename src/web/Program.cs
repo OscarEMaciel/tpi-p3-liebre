@@ -42,9 +42,10 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 #region Repositories
 builder.Services.AddScoped<ISysAdminRepository, SysAdminRepository>();
-builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<ITransactionDetailsRepository, TransactionDetailsRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 #endregion
 var app = builder.Build();
 
