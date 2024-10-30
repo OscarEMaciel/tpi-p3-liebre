@@ -21,10 +21,15 @@ namespace Infrastructure.Data
 
         public ApplicationContext(DbContextOptions<ApplicationContext>options): base (options) { }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder){
+            modelBuilder.Entity<User>()
+                .HasDiscriminator<string>("UserType")
+                .HasValue<Client>("Client")
+                .HasValue<Admin>("Admin")
+                .HasValue<SysAdmin>("SysAdmin");
+        }
+
 
     }
-
-   
-
 
 }
